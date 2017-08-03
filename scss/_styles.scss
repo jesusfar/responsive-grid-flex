@@ -1,0 +1,13 @@
+$colors: (
+    yelow: #FFE600,
+    grey-darken-4: #333333,
+    grey-darken-3: #666666,
+    grey-ligthen-2:#999999,
+    grey-ligthen-4:#EEEEEE,
+    blue-darken-1: #3483FA,
+);
+
+header {
+    color: map-get($colors, yelow);
+    background-color: map-get($colors, yelow);
+}

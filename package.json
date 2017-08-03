@@ -1,0 +1,12 @@
+{
+  "name": "sass-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile:sass": "node-sass scss/_styles.scss css/styles.css"
+  },
+  "dependencies": {
+    "node-sass": "^4.5.3"
+  }
+}
