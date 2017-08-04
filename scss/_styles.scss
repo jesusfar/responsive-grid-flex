@@ -7,7 +7,68 @@ $colors: (
     blue-darken-1: #3483FA,
 );
 
-header {
-    color: map-get($colors, yelow);
-    background-color: map-get($colors, yelow);
+// Break points size
+$breakpoints: (
+  xs: 32rem,
+  sm: 48rem,
+  md: 72rem,
+  lg: 96rem,
+  xl: 102rem,
+  xx: 120rem
+);
+
+
+// media query mixin
+@mixin break($size) {
+  @media (min-width: map-get($breakpoints, $size)) {
+    @content;
+  }
 }
+
+// number of columns variable
+$grid-colums: 12;
+
+// grid container
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 1rem;
+  padding: 0rem;
+  margin-left: 0rem;
+}
+
+// grid item
+.row {
+  padding: 0.5rem;
+}
+
+// loop over the breakpoints
+@each $key, $value in $breakpoints {
+  @for $i from 1 through $grid-colums {
+    .col-#{$key}-#{$i} {
+      flex: 0 0 100%;
+      @include break($key) {
+        flex: 0 0 #{$i / $grid-colums * 100%};
+      }
+    }
+  }
+}
+
+// Offset grid
+@each $key, $value in $breakpoints {
+  @for $i from 1 through $grid-colums {
+    .offset-col-#{$key}-#{$i} {
+      flex: 0 0 100%;
+      @include break($key) {
+        margin-left: 100% / $grid-colums * $i;
+      }
+    }
+  }
+}
+
+// Set Body
+body {
+  background-color: map-get($colors, grey-ligthen-4);
+  margin: 0;
+}
+
