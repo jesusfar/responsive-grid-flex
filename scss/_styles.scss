@@ -1,3 +1,9 @@
+// http://www.stubbornella.org/content/2013/07/01/easy-peasy-rem-conversion-with-sass/
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return #{$remSize}rem;
+}
+
 $colors: (
     yelow: #FFE600,
     grey-darken-4: #333333,
@@ -9,66 +15,77 @@ $colors: (
 
 // Break points size
 $breakpoints: (
-  xs: 32rem,
-  sm: 48rem,
-  md: 72rem,
-  lg: 96rem,
-  xl: 102rem,
-  xx: 120rem
+  xs: calculateRem(512px),
+  sm: calculateRem(768px),
+  md: calculateRem(1152px),
+  lg: calculateRem(1536px),
+  xl: calculateRem(1632px),
+  xx: calculateRem(1920px)
 );
 
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: calculateRem(16px);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  background-color: map-get($colors, grey-ligthen-4);
+  margin: 0;
+}
+
+/////////////////////////////
+/// BASIC FLUID GRID SYSTEM//
+/////////////////////////////
+
 // media query mixin
 @mixin break($size) {
-  @media (min-width: map-get($breakpoints, $size)) {
+  @if ($size == 0) {
     @content;
+  } @else {
+    @media (min-width: map-get($breakpoints, $size)) {
+      @content;
+    }
   }
 }
 
-// number of columns variable
-$grid-colums: 12;
+// number of columns
+$grid-columns: 12;
 
 // grid container
 .container {
-  display: flex;
-  flex-flow: row wrap;
-  margin-bottom: 1rem;
-  padding: 0rem;
-  margin-left: 0rem;
+  margin: 0 auto;
+  max-width: map-get($breakpoints, md);
 }
 
-// grid item
+.container-fluid {
+  width: 100%;
+  margin: 0;
+}
+
+// row item
 .row {
-  padding: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 // loop over the breakpoints
-@each $key, $value in $breakpoints {
-  @for $i from 1 through $grid-colums {
-    .col-#{$key}-#{$i} {
-      flex: 0 0 100%;
-      @include break($key) {
-        flex: 0 0 #{$i / $grid-colums * 100%};
+@each $key, $size in $breakpoints {
+  @include break($key) {
+    @for $i from 1 through $grid-columns {
+      .col-·#{$key}-#{$i} {
+        flex-basis: (100/ ($grid-columns/$i)) * 1%;
       }
     }
   }
-}
-
-// Offset grid
-@each $key, $value in $breakpoints {
-  @for $i from 1 through $grid-colums {
-    .offset-col-#{$key}-#{$i} {
-      flex: 0 0 100%;
-      @include break($key) {
-        margin-left: 100% / $grid-colums * $i;
-      }
-    }
-  }
-}
-
-// Set Body
-body {
-  background-color: map-get($colors, grey-ligthen-4);
-  margin: 0;
 }
 
