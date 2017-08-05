@@ -1,8 +1,11 @@
 {
-  "name": "sass-example",
+  "name": "sass-grid-flex-example",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Jesus Farfan <jesu.farfan23@gmail.com",
   "license": "MIT",
+  "description": "A basic responsive grid example in SASS.",
+  "keywords": [],
   "scripts": {
     "compile:sass": "node-sass scss/_styles.scss css/styles.css"
   },
